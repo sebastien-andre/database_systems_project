@@ -1,6 +1,6 @@
 # Database Systems Project
-
-This repository contains the source code for the Database Systems Project.
+## By Sebastien Lee and Ian Pruitt
+This repository contains source code for the Database Systems Project.
 
 ## Setup 
 
