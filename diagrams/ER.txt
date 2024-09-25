@@ -1,5 +1,35 @@
 @startuml
 
+scale 2.0 
+
+
+skinparam linetype ortho
+skinparam entity {
+  Padding 25
+  BorderColor DarkSlateGray
+  BackgroundColor LightGray
+  FontColor DarkSlateGray
+  ArrowColor Black
+  ArrowThickness 2
+  RoundCorner 25
+  Shadowing true
+}
+
+skinparam class {
+  BackgroundColor LightGray
+  BorderColor DarkSlateGray
+  FontColor DarkSlateGray
+}
+
+skinparam default {
+  HorizontalSpacing 80
+  VerticalSpacing 80
+}
+
+
+title Forum Entities Relationship Diagram
+
+
 ' Entities for the forum
 
 entity "User" as User {
@@ -38,14 +68,6 @@ entity "Reply" as Reply {
   content : TEXT
 }
 
-entity "DeletedPostLog" as DeletedPostLog {
-  *log_id : INT <<PK>>
-  --
-  post_id : INT <<FK>>
-  deletion_date : DATE
-  reason : VARCHAR
-}
-
 entity "Overboard" as Overboard {
   *overboard_id : INT <<PK>>
   --
@@ -62,6 +84,7 @@ entity "Topic" as Topic {
   creation_date : DATE
 }
 
+
 ' Weak entities
 
 entity "PostTag" as PostTag {
@@ -75,25 +98,15 @@ entity "Tag" as Tag {
   name : VARCHAR
 }
 
-entity "LikeDislike" as LikeDislike {
-  *user_id : INT <<FK>> <<PK>>
-  *post_id : INT <<FK>> <<PK>>
-  --
-  type : ENUM('like', 'dislike')
-}
-
 ' Relationships
 
-User ||--o{ UserProfile : "has"
-User ||--o{ Post : "writes"
-User ||--o{ Reply : "replies"
-User ||--o{ LikeDislike : "performs"
-Post ||--o{ Reply : "receives"
-Post ||--o{ PostTag : "has"
-Post ||--o{ LikeDislike : "receives"
-Post ||--o{ DeletedPostLog : "can be deleted in"
-Topic ||--o{ Post : "contains"
-Overboard ||--o{ Topic : "contains"
-Tag ||-- PostTag : "tags"
+User ||--o{ UserProfile 
+User ||--o{ Post
+User ||--o{ Reply
+Post ||--o{ Reply
+Post ||--o{ PostTag
+Topic ||--o{ Post
+Overboard ||--o{ Topic
+Tag ||-- PostTag
 
 @enduml
