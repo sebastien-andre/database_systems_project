@@ -1,6 +1,3 @@
-## Current Diagram 
-
-
 ![Entity Relationship Diagram 1](png/ER.png)
 *Entity Relationship Diagram*
 
