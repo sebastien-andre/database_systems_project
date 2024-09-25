@@ -1,3 +1,10 @@
+## Current Diagram 
+
+
+![Entity Relationship Diagram 1](png/ER.png)
+*Entity Relationship Diagram*
+
+
 ## Usage
 
 #### Generating UML Diagrams
@@ -14,3 +21,4 @@ To generate UML diagrams from `.txt` files:
   ```
 
 The generated PNG files will be saved in the `png` folder in the same directory.
+
