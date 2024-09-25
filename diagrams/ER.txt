@@ -1,0 +1,99 @@
+@startuml
+
+' Entities for the forum
+
+entity "User" as User {
+  *user_id : INT <<PK>>
+  --
+  username : VARCHAR
+  password : VARCHAR
+  email : VARCHAR
+  registration_date : DATE
+}
+
+entity "UserProfile" as UserProfile {
+  *profile_id : INT <<PK>>
+  --
+  user_id : INT <<FK>>
+  bio : TEXT
+  avatar : VARCHAR
+  location : VARCHAR
+}
+
+entity "Post" as Post {
+  *post_id : INT <<PK>>
+  --
+  user_id : INT <<FK>>
+  topic_id : INT <<FK>>
+  post_date : DATE
+  content : TEXT
+}
+
+entity "Reply" as Reply {
+  *reply_id : INT <<PK>>
+  --
+  post_id : INT <<FK>>
+  user_id : INT <<FK>>
+  reply_date : DATE
+  content : TEXT
+}
+
+entity "DeletedPostLog" as DeletedPostLog {
+  *log_id : INT <<PK>>
+  --
+  post_id : INT <<FK>>
+  deletion_date : DATE
+  reason : VARCHAR
+}
+
+entity "Overboard" as Overboard {
+  *overboard_id : INT <<PK>>
+  --
+  name : VARCHAR
+  description : TEXT
+}
+
+entity "Topic" as Topic {
+  *topic_id : INT <<PK>>
+  --
+  overboard_id : INT <<FK>>
+  title : VARCHAR
+  created_by : INT <<FK>> 'user_id
+  creation_date : DATE
+}
+
+' Weak entities
+
+entity "PostTag" as PostTag {
+  *post_id : INT <<FK>> <<PK>>
+  *tag_id : INT <<FK>> <<PK>>
+}
+
+entity "Tag" as Tag {
+  *tag_id : INT <<PK>>
+  --
+  name : VARCHAR
+}
+
+entity "LikeDislike" as LikeDislike {
+  *user_id : INT <<FK>> <<PK>>
+  *post_id : INT <<FK>> <<PK>>
+  --
+  type : ENUM('like', 'dislike')
+}
+
+' Relationships
+
+User ||--o{ UserProfile : "has"
+User ||--o{ Post : "writes"
+User ||--o{ Reply : "replies"
+User ||--o{ LikeDislike : "performs"
+Post ||--o{ Reply : "receives"
+Post ||--o{ PostTag : "has"
+Post ||--o{ LikeDislike : "receives"
+Post ||--o{ DeletedPostLog : "can be deleted in"
+Topic ||--o{ Post : "contains"
+Overboard ||--o{ Topic : "contains"
+Tag ||-- PostTag : "tags"
+
+@enduml
