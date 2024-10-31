@@ -1,0 +1,110 @@
+@startchen
+
+
+scale 2.0 
+
+
+skinparam linetype ortho
+skinparam entity {
+  Padding 25
+  BorderColor DarkSlateGray
+  BackgroundColor LightGray
+  FontColor DarkSlateGray
+  ArrowColor Black
+  ArrowThickness 2
+  RoundCorner 25
+  Shadowing true
+}
+
+skinparam class {
+  BackgroundColor LightGray
+  BorderColor DarkSlateGray
+  FontColor DarkSlateGray
+}
+
+skinparam default {
+  HorizontalSpacing 80
+  VerticalSpacing 80
+}
+
+
+title Forum Entities Relationship Diagram
+
+
+
+' Entities
+
+entity USER {
+  user_id <<PK>>
+  username
+  password
+  email
+  registration_date
+}
+
+entity USERPROFILE <<weak>> {
+  profile_id <<PK>>
+  bio
+  avatar
+  location
+}
+
+entity POST <<weak>> {
+  post_id <<PK>>
+  post_date
+  content
+}
+
+entity REPLY <<weak>> {
+  reply_id <<PK>>
+  reply_date
+  content
+}
+
+entity OVERBOARD {
+  overboard_id <<PK>>
+  name
+  description
+}
+
+entity TOPIC {
+  topic_id <<PK>>
+  title
+  creation_date
+}
+
+' Relationships
+
+relationship WRITES {
+}
+
+relationship POSTS_IN {
+}
+
+relationship REPLIES_TO {
+}
+
+relationship CONTAINS {
+}
+
+relationship HAS_PROFILE {
+}
+
+' Define Relationships
+
+WRITES =1= USER
+WRITES -N- POST
+
+POSTS_IN -N- POST
+POSTS_IN =1= TOPIC
+
+REPLIES_TO -N- REPLY
+REPLIES_TO =1= POST
+
+CONTAINS =1= OVERBOARD
+CONTAINS -N- TOPIC
+
+HAS_PROFILE =1= USER
+HAS_PROFILE =1= USERPROFILE
+
+@endchen

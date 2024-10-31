@@ -101,7 +101,7 @@ entity "Tag" as Tag {
 ' Relationships
 
 User ||--o{ UserProfile 
-User ||--o{ Post
+User ||--o{ Post 
 User ||--o{ Reply
 Post ||--o{ Reply
 Post ||--o{ PostTag

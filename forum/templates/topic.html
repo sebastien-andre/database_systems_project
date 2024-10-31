@@ -1,0 +1,22 @@
+<!-- templates/topic.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topics in Overboard</title>
+</head>
+<body>
+    <h1>Topics in Overboard</h1>
+    <h2>{{ overboard_title }}</h2>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <ul>
+        {% for topic in topics %}
+            <li>
+                <a href="#">{{ topic[2] }}</a>  <!-- Change to a link to the specific topic if needed -->
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('overboards') }}">Back to Overboards</a>
+</body>
+</html>
