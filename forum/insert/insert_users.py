@@ -15,31 +15,41 @@ DISNEY_USERS = [
     ("mickey.mouse", "mickey@disney.com", "Mickey Mouse", "Mickey's Avatar URL", "Toontown"),
     ("minnie.mouse", "minnie@disney.com", "Minnie Mouse", "Minnie's Avatar URL", "Toontown"),
     ("donald.duck", "donald@disney.com", "Donald Duck", "Donald's Avatar URL", "Duckburg"),
-    ("goofy", "goofy@disney.com", "Goofy", "Goofy's Avatar URL", "Toontown"),
-    ("pluto", "pluto@disney.com", "Pluto", "Pluto's Avatar URL", "Toontown"),
-    ("snow.white", "snowwhite@disney.com", "Snow White", "Snow White's Avatar URL", "The Woods"),
-    ("cinderella", "cinderella@disney.com", "Cinderella", "Cinderella's Avatar URL", "Kingdom of Arendelle"),
-    ("ariel", "ariel@disney.com", "Ariel", "Ariel's Avatar URL", "The Ocean"),
-    ("simba", "simba@disney.com", "Simba", "Simba's Avatar URL", "Pride Lands"),
-    ("belle", "belle@disney.com", "Belle", "Belle's Avatar URL", "Village"),
-    ("woody", "woody@disney.com", "Woody", "Woody's Avatar URL", "Toy Story Land"),
-    ("buzz.lightyear", "buzz@disney.com", "Buzz Lightyear", "Buzz's Avatar URL", "Toy Story Land"),
-    ("tigger", "tigger@disney.com", "Tigger", "Tigger's Avatar URL", "Hundred Acre Wood"),
-    ("pooh", "pooh@disney.com", "Winnie the Pooh", "Pooh's Avatar URL", "Hundred Acre Wood"),
-    ("stitch", "stitch@disney.com", "Stitch", "Stitch's Avatar URL", "Hawaii"),
-    ("elsa", "elsa@disney.com", "Elsa", "Elsa's Avatar URL", "Kingdom of Arendelle"),
-    ("anna", "anna@disney.com", "Anna", "Anna's Avatar URL", "Kingdom of Arendelle"),
-    ("maleficent", "maleficent@disney.com", "Maleficent", "Maleficent's Avatar URL", "Dark Woods"),
-    ("jack.sparrow", "jack@disney.com", "Jack Sparrow", "Jack's Avatar URL", "Caribbean"),
-    ("hades", "hades@disney.com", "Hades", "Hades' Avatar URL", "Underworld")
+    # Add additional users as needed
 ]
 
-def insert_users():
-    """Insert Disney users into the forum database."""
+# Sample Overboards
+OVERBOARDS = [
+    ("General Discussion", "Talk about anything here!"),
+    ("Announcements", "Forum news and updates."),
+    ("Support", "Get help and support from the community."),
+    ("Off-Topic", "Discuss anything non-forum related."),
+    ("Introductions", "Introduce yourself to the community.")
+]
+
+# Sample Topics for each overboard
+TOPICS = [
+    (1, 'mickey.mouse', 'Welcome to General Discussion'),
+    (2, 'minnie.mouse', 'Forum Update: New Features'),
+    (3, 'donald.duck', 'Need Help with Login Issues'),
+    (4, 'goofy', 'Favorite Movies?'),
+    (5, 'pluto', 'Hello Everyone!')
+]
+
+def insert_data():
+    """Truncate tables and insert sample data into the forum database."""
     try:
         connection = mysql.connector.connect(**DB_CONFIG)
         if connection.is_connected():
             cursor = connection.cursor()
+
+            # Truncate tables to clear existing data
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
+            cursor.execute("TRUNCATE TABLE Topic;")
+            cursor.execute("TRUNCATE TABLE Overboard;")
+            cursor.execute("TRUNCATE TABLE UserProfile;")
+            cursor.execute("TRUNCATE TABLE User;")
+            cursor.execute("SET FOREIGN_KEY_CHECKS = 1;")
 
             # Insert users
             for user_name, email, profile_name, avatar, location in DISNEY_USERS:
@@ -58,8 +68,23 @@ def insert_users():
                     VALUES (%s, %s, %s)
                 """, (user_name, avatar, location))
 
+            # Insert Overboards
+            for name, description in OVERBOARDS:
+                cursor.execute("""
+                    INSERT INTO Overboard (name, description)
+                    VALUES (%s, %s)
+                """, (name, description))
+
+            # Insert Topics
+            for overboard_id, created_by, title in TOPICS:
+                creation_date = datetime.now()
+                cursor.execute("""
+                    INSERT INTO Topic (overboard_id, created_by, title, creation_date)
+                    VALUES (%s, %s, %s, %s)
+                """, (overboard_id, created_by, title, creation_date))
+
             connection.commit()
-            print("Successfully inserted users.")
+            print("Database has been reset and new data inserted successfully.")
 
     except Error as e:
         print(f"Error while connecting to MySQL: {e}")
@@ -70,4 +95,4 @@ def insert_users():
             connection.close()
 
 if __name__ == "__main__":
-    insert_users()
+    insert_data()

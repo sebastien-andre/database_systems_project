@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic_title }}</title>
+</head>
+<body>
+    <h1>{{ topic_title }}</h1>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <p><strong>{{ post[1] }}:</strong> {{ post[2] }}</p>
+                <p><em>Posted on {{ post[3] }}</em></p>
+                <!-- Pass the correct post_id -->
+                <a href="{{ url_for('replies', post_id=post[0]) }}">View Replies</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('topics', overboard_id=overboard_id) }}">Back to Topics</a>
+</body>
+</html>

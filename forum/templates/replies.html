@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replies</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .original-post {
+            background: #f5f5f5;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        ul li {
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        ul li p {
+            margin: 0;
+        }
+
+        ul li strong {
+            color: #3498db;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background: #3498db;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        a:hover {
+            background: #2980b9;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        textarea {
+            resize: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        button {
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Replies</h1>
+        <div class="original-post">
+            <p><strong>Original Post:</strong> {{ original_content }}</p>
+        </div>
+
+        <h2>Replies</h2>
+        <ul>
+            {% for reply in replies %}
+                <li>
+                    <p>{{ reply[1] }} - <strong>{{ reply[0] }}</strong> ({{ reply[2] }})</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('posts', topic_id=topic_id) }}">Back to Posts</a>
+
+        <h2>Reply to this Post</h2>
+        <form action="{{ url_for('add_reply', post_id=post_id) }}" method="post">
+            <textarea name="content" rows="4" placeholder="Enter your reply here" required></textarea>
+            <button type="submit">Submit Reply</button>
+        </form>
+    </div>
+</body>
+</html>

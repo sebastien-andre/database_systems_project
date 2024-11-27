@@ -1,20 +1,27 @@
-<!-- templates/overboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overboard</title>
+    <title>Overboards</title>
 </head>
 <body>
     <h1>Overboards</h1>
+
+    {% if overboards %}
+        <ul>
+            {% for overboard in overboards %}
+                <li>
+                    <!-- Make sure overboard_id is provided here -->
+                    <a href="{{ url_for('topics', overboard_id=overboard[0]) }}">{{ overboard[1] }}</a>
+                    <p>{{ overboard[2] }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No overboards available.</p>
+    {% endif %}
+    
     <a href="{{ url_for('logout') }}">Logout</a>
-    <ul>
-        {% for board in overboards %}
-            <li>
-                <a href="{{ url_for('topics', overboard_id=board[0]) }}">{{ board[1] }}</a>
-            </li>
-        {% endfor %}
-    </ul>
 </body>
 </html>
