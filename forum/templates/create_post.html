@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Post</h1>
+        <form action="{{ url_for('create_post', topic_id=topic_id) }}" method="post" enctype="multipart/form-data">
+            <textarea name="content" rows="5" placeholder="Write your post here..." required></textarea><br>
+            <label for="image">Attach an image (optional):</label>
+            <input type="file" name="image" id="image" accept="image/*"><br>
+            <button type="submit">Submit Post</button>
+        </form>
+        <a href="{{ url_for('posts', topic_id=topic_id) }}">Back to Posts</a>
+    </div>
+</body>
+</html>
+
+
+
+
+

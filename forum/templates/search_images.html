@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Images</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Images</h1>
+        <form action="{{ url_for('search_images') }}" method="get">
+            <input type="text" name="query" value="{{ query }}" placeholder="Search images..." required>
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            {% for image in images %}
+            <li>
+                <img src="{{ image[2] }}" alt="{{ image[1] }}" style="width: 100px; height: auto;">
+                <p>{{ image[1] }}</p>
+                <a href="{{ url_for('select_image', image_id=image[0]) }}">Select</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Image Bank</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function selectImage(filename) {
+            const imageURL = `/static/uploads/${filename}`;
+            opener.postMessage({ imageURL: imageURL }, window.location.origin);
+            window.close();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Image Bank</h1>
+
+        <form method="get" action="{{ url_for('search_images_popup') }}">
+            <input type="text" name="query" placeholder="Search images by tag..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="image-results">
+            {% for image_id, filename, subjects in images %}
+            <div class="image-item">
+                <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="{{ subjects }}" width="200">
+                <p>{{ subjects }}</p>
+                <button onclick="selectImage('{{ filename }}')">Select Image</button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <h2>Upload New Image</h2>
+        <form method="post" action="{{ url_for('upload_image') }}" enctype="multipart/form-data">
+            <label for="image">Choose an image:</label><br>
+            <input type="file" name="image" id="image" accept="image/*" required><br><br>
+            <label for="subjects">Add tags/subjects (comma-separated):</label><br>
+            <input type="text" name="subjects" id="subjects" placeholder="e.g., dog, cute, pet" required><br><br>
+            <button type="submit">Upload Image</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ topic_title }}</h1>
+        <p><strong>Total Posts: {{ total_posts }}</strong></p>
+        <ul>
+            {% for post in posts %}
+            <li>
+                <div class="content">
+                    <p>
+                        <strong>{{ post[1] }}</strong>: 
+                        {% if post[2] and post[2]|length > 65 %}
+                            {{ post[2][:65] }}...
+                        {% else %}
+                            {{ post[2] }}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="date">
+                    <p>{{ post[3] }}</p>
+                </div>
+                <form action="{{ url_for('replies', post_id=post[0]) }}" method="get" style="margin: 0;">
+                    <button type="submit">View Replies</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('topics', overboard_id=overboard_id) }}">Back to Topics</a>
+        <a href="{{ url_for('create_post', topic_id=topic_id) }}" class="create-post-button">Create Post</a>
+    </div>
+</body>
+</html>

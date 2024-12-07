@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ overboard_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ overboard_title }}</h1>
+        <ul>
+            {% for topic in topics %}
+            <li>
+                <a href="{{ url_for('posts', topic_id=topic[0]) }}">{{ topic[1] }}</a> - created by {{ topic[2] }}
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('overboards') }}">Back to Overboards</a>
+    </div>
+</body>
+</html>
